@@ -23,7 +23,7 @@ public class ArrayTest {
 
     public static int elemPositionInArray(int[] intArray, int elem){
         if( elem < 0 || elem > intArray.length - 1 ){
-            System.out.println("Errore, la dimensione inserita non è valida");
+            System.out.println("Errore, la posizione inserita non è valida");
             return -1;
         }
         return intArray[elem];
