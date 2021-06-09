@@ -13,19 +13,22 @@ public class ArrayTest {
             intArray[i] = Integer.parseInt( strArray[i] );
         }
 
-        System.out.println("Inserisci la posizione dell'elemento (partendo da 0): ");
+        System.out.println("Inserisci il valore da trovare");
         int elem = in.nextInt();
 
         int result = elemPositionInArray( intArray, elem );
-        if( result != -1 )
-            System.out.printf("L'elemento selezionato ha come valore: %d", result);
+        if( result == -1 )
+            System.out.println("Elemento non trovato");
+        else
+            System.out.printf("L'elemento selezionato ha come posizione: %d", result);
     }
 
     public static int elemPositionInArray(int[] intArray, int elem){
-        if( elem < 0 || elem > intArray.length - 1 ){
-            System.out.println("Errore, la posizione inserita non è valida");
-            return -1;
-        }
-        return intArray[elem];
+       for( int i = 0; i < intArray.length; i++ ){
+           if( intArray[i] == elem )
+               return i;
+       }
+
+        return -1;
     }
 }
