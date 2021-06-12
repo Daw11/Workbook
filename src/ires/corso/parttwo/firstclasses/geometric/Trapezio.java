@@ -28,15 +28,14 @@ public class Trapezio extends MasterShape {
         }
         System.out.print("Inserisci la lunghezza degli altri due lati del trapezio (separa i numeri con un |): ");
         in.nextLine(); // Clear previous nextDouble
-        String strSides = in.nextLine();
-        String[] strSidesArray = strSides.split("\\|");
-        if( strSidesArray.length != 2 ){
+        String[] strSides = in.nextLine().split("\\|");
+        if( strSides.length != 2 ){
             System.out.println("Errore, il numero di lati del trapezio che dovevi inserire è 2.");
             return;
         }
 
-        sides[L1] = Double.parseDouble( strSidesArray[0] );
-        sides[L2] = Double.parseDouble( strSidesArray[1] );
+        sides[L1] = Double.parseDouble( strSides[0] );
+        sides[L2] = Double.parseDouble( strSides[1] );
     }
 
     @Override
