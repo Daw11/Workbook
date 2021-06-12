@@ -11,7 +11,7 @@ public class Triangolo extends MasterShape {
             sides[i] = 0;
 
         Scanner in = new Scanner( System.in );
-        System.out.println("Inserisci la lunghezza dei 3 lati del triangolo (separa i numeri con un |): ");
+        System.out.print("Inserisci la lunghezza dei 3 lati del triangolo (separa i numeri con un |): ");
         String[] strSides = in.nextLine().split("\\|");
         if( strSides.length != 3 ){
             System.out.println("Errore, il numero di lati del triangolo che dovevi inserire è 3.");
