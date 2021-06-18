@@ -9,6 +9,7 @@ abstract public class Personaggio implements Attacca {
         this.forza = forza;
     }
 
+    @Override
     public void takeDamage( int damage ){
         forza -= damage;
     }
