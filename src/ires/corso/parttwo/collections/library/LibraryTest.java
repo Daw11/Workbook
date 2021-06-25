@@ -1,10 +1,15 @@
 package ires.corso.parttwo.collections.library;
+import javafx.collections.transformation.SortedList;
+
 import java.util.*;
 
 public class LibraryTest {
+    private static final Set<Libro> archivio_libri = new HashSet<>();
+    private static final Set<Categoria> archivio_categorie = new HashSet<>();
+    private static final Set<Utente> archivio_utenti = new HashSet<>();
+
     private final static Map<Libro, Set<Categoria>> libriConCategorie = new HashMap<>();
     private final static Map<Utente, List<Prestito>> utentiConPrestiti = new HashMap<>();
-    private final static Map<Categoria, List<Prestito>> categorieConPrestiti = new HashMap<>();
 
     public static void main(String[] args) {
         Libro b1 = new Libro( "Harry Potter", "J. K. Rowling", "1997", "Bloomsbury", 223, 1, 20);
@@ -16,8 +21,8 @@ public class LibraryTest {
         Libro b7 = new Libro("Divina Commedia" ,"Dante Alighieri", "1934", "Oscar", 555, 4, 80);
         Libro b8 = new Libro("Il Grande Gatsby", "Fitzgerald", "1922", "Books", 654, 3, 90);
 
-        List<Libro> libri = Arrays.asList( b1, b2, b3, b4, b5, b6, b7, b8 );
-        for( Libro libro : libri )
+        archivio_libri.addAll( Arrays.asList( b1, b2, b3, b4, b5, b6, b7, b8 ) );
+        for( Libro libro : archivio_libri )
             addBook( libro );
 
         Categoria c1 = new Categoria( "Fantasy", "Racconti di fantasia" );
@@ -25,6 +30,8 @@ public class LibraryTest {
         Categoria c3 = new Categoria( "Classici", "Racconti classici" );
         Categoria c4 = new Categoria( "Avventura", "Racconti d'avventura" );
         Categoria c5 = new Categoria( "Poesia", "Poesie" );
+
+        archivio_categorie.addAll( Arrays.asList( c1, c2, c3, c4, c5 ) );
 
         addCategories( b1, Arrays.asList( c1, c4 ) );
         addCategories( b2, Arrays.asList( c1, c3, c4 ) );
@@ -39,17 +46,18 @@ public class LibraryTest {
         Utente u2 = new Utente("Luca", "Bianco", "22223");
         Utente u3 = new Utente("Mario", "Verdi", "33334");
 
-        addUtente( u1 );
-        addUtente( u2 );
-        addUtente( u3 );
+        archivio_utenti.addAll( Arrays.asList( u1, u2, u3 ) );
+        for( Utente utente : archivio_utenti )
+            addUtente( utente );
 
         addPrestito( u1, Arrays.asList( b1, b8, b4 ) );
         addPrestito( u2, Arrays.asList( b2, b3, b4 ) );
+        calculatePrestiti("Giorno 1");
+
         addPrestito( u3, Arrays.asList( b6, b2, b7 ) );
         addPrestito( u2, Arrays.asList( b8, b1, b2 ) );
         addPrestito( u1, Arrays.asList( b8, b3, b5 ) );
-
-        calculatePrestiti();
+        calculatePrestiti( "Giorno 2" );
     }
 
     public static void addBook( Libro libro ){
@@ -91,35 +99,29 @@ public class LibraryTest {
         prestiti.add( prestito );
     }
 
-    public static void addPrestitoToCategoria( Categoria categoria, Prestito prestito ){
-        if( categorieConPrestiti.containsKey( categoria ) ){
-            List<Prestito> prestiti = categorieConPrestiti.get( categoria );
-            prestiti.add( prestito );
-        }
-        else {
-            List<Prestito> prestiti = new ArrayList<>();
-            prestiti.add( prestito );
-            categorieConPrestiti.put( categoria, prestiti );
-        }
-    }
+    public static void calculatePrestiti( String msg ){
+       Map<Categoria, List<Prestito>> categorieConPrestiti = new HashMap<>();
 
-    public static void calculatePrestiti(){
+       for( Categoria categoria : archivio_categorie )
+           categorieConPrestiti.put( categoria, new ArrayList<Prestito>() );
+
         for( List<Prestito> prestiti : utentiConPrestiti.values() ){
             for( Prestito prestito : prestiti ){
                 Iterator<Libro> iLibri = prestito.getLibri();
                 while( iLibri.hasNext() ){
                     Libro libro = iLibri.next();
                     Set<Categoria> categorie = libriConCategorie.get( libro );
-                    for( Categoria categoria : categorie ){
-                        addPrestitoToCategoria( categoria, prestito );
-                    }
+                    for( Categoria categoria : categorie )
+                        categorieConPrestiti.get( categoria ).add( prestito );
                 }
             }
         }
 
+        System.out.println( msg );
         for( Categoria categoria : categorieConPrestiti.keySet() ){
             int nPrestiti = categorieConPrestiti.get( categoria ).size();
             System.out.printf( "La categoria %s ha avuto %d prestiti.\n", categoria.getTitolo(), nPrestiti );
         }
+        System.out.println();
     }
 }
