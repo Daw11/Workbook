@@ -10,8 +10,7 @@ public class Prestito {
 
     public Prestito( Utente utente, List<Libro> libri ) {
         this.utente = utente;
-        this.libri = new ArrayList<>();
-        this.libri.addAll( libri );
+        this.libri = new ArrayList<>( libri );
     }
 
     public Utente getUtente() {
