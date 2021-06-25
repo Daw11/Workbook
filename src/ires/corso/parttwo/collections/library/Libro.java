@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class Libro {
+    private final String titolo;
     private final String autore;
     private final String data;
     private final String pubblicazione;
@@ -12,13 +13,18 @@ public class Libro {
     private final int num_volumi;
     private final int num_capitoli;
 
-    public Libro(String autore, String data, String pubblicazione, int num_pagine, int num_volumi, int num_capitoli) {
+    public Libro(String titolo, String autore, String data, String pubblicazione, int num_pagine, int num_volumi, int num_capitoli) {
+        this.titolo = titolo;
         this.autore = autore;
         this.data = data;
         this.pubblicazione = pubblicazione;
         this.num_pagine = num_pagine;
         this.num_volumi = num_volumi;
         this.num_capitoli = num_capitoli;
+    }
+
+    public String getTitolo() {
+        return titolo;
     }
 
     public String getAutore() {

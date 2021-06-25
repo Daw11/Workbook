@@ -2,12 +2,13 @@ package ires.corso.parttwo.collections.library;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class Prestito {
     private final Utente utente;
-    private final ArrayList<Libro> libri;
+    private final List<Libro> libri;
 
-    public Prestito( Utente utente, ArrayList<Libro> libri ) {
+    public Prestito( Utente utente, List<Libro> libri ) {
         this.utente = utente;
         this.libri = libri;
     }
