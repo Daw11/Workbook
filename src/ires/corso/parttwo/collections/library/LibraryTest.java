@@ -51,12 +51,12 @@ public class LibraryTest {
             addUtente( utente );
 
         addPrestito( u1, Arrays.asList( b1, b8, b4 ) );
-        addPrestito( u2, Arrays.asList( b2, b3, b4 ) );
+        addPrestito( u2, Arrays.asList( b5, b3, b4 ) );
         calculatePrestiti("Giorno 1");
 
         addPrestito( u3, Arrays.asList( b6, b2, b7 ) );
-        addPrestito( u2, Arrays.asList( b8, b1, b2 ) );
-        addPrestito( u1, Arrays.asList( b8, b3, b5 ) );
+        addPrestito( u2, Arrays.asList( b5, b7, b2 ) );
+        addPrestito( u1, Arrays.asList( b8, b3, b7 ) );
         calculatePrestiti( "Giorno 2" );
     }
 
@@ -137,7 +137,7 @@ public class LibraryTest {
         System.out.println( msg );
         for( Map.Entry<Categoria, List> entry : sortedList ){
             Categoria categoria = entry.getKey();
-            int nPrestiti = categorieConPrestiti.get( categoria ).size();
+            int nPrestiti = entry.getValue().size();
             System.out.printf( "La categoria %s ha avuto %d prestiti.\n", categoria.getTitolo(), nPrestiti );
         }
         System.out.println();
