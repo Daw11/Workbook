@@ -100,7 +100,7 @@ public class LibraryTest {
     }
 
     public static void calculatePrestiti( String msg ){
-       Map<Categoria, List<Prestito>> categorieConPrestiti = new HashMap<>();
+       Map<Categoria, List> categorieConPrestiti = new HashMap<>();
 
        for( Categoria categoria : archivio_categorie )
            categorieConPrestiti.put( categoria, new ArrayList<Prestito>() );
@@ -117,8 +117,26 @@ public class LibraryTest {
             }
         }
 
+        List<Map.Entry<Categoria, List>> sortedList = new ArrayList<Map.Entry<Categoria, List>>( categorieConPrestiti.entrySet() );
+        Comparator<Map.Entry<Categoria, List>> comparator = new Comparator<Map.Entry<Categoria, List>>() {
+            @Override
+            public int compare(Map.Entry<Categoria, List> o1, Map.Entry<Categoria, List> o2) {
+                Integer size1 = o1.getValue().size();
+                Integer size2 = o2.getValue().size();
+                Integer result = -size1.compareTo( size2 );
+                if( result == 0 ) {
+                    String titolo1 = o1.getKey().getTitolo();
+                    String titolo2 = o2.getKey().getTitolo();
+                    result = titolo1.compareTo( titolo2 );
+                }
+                return result;
+            }
+        };
+        Collections.sort( sortedList, comparator );
+
         System.out.println( msg );
-        for( Categoria categoria : categorieConPrestiti.keySet() ){
+        for( Map.Entry<Categoria, List> entry : sortedList ){
+            Categoria categoria = entry.getKey();
             int nPrestiti = categorieConPrestiti.get( categoria ).size();
             System.out.printf( "La categoria %s ha avuto %d prestiti.\n", categoria.getTitolo(), nPrestiti );
         }
