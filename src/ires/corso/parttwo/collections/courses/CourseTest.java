@@ -1,16 +1,14 @@
 package ires.corso.parttwo.collections.courses;
 
-import javax.swing.text.Style;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class CourseTest {
-    private static HashMap<Course, HashMap> data = new HashMap<>();
+    private final static Map<Course, Map> data = new HashMap<>();
 
     public static void main(String[] args) {
-        HashMap<Course, HashMap> data = new HashMap<>();
-
         Course c1 = new Course("Java", "Corso di programmazione in java", "Informatica");
         addCourse( c1 );
         addAssignment( c1, new Assignment( "Esame 1", "Basi del linguaggio" ) );
@@ -40,10 +38,10 @@ public class CourseTest {
             return;
         }
 
-        data.put( course, new HashMap<Assignment, HashMap>() );
+        data.put( course, new HashMap<Assignment, Map>() );
     }
 
-    private static HashMap<Assignment, HashMap> getAssignments( Course course ){
+    private static Map<Assignment, Map> getAssignments( Course course ){
         if( !data.containsKey( course ) ){
             System.out.printf( "Errore: il corso %s non è presente.\n", course.getTitolo() );
             return null;
@@ -53,7 +51,7 @@ public class CourseTest {
     }
 
     private static void addAssignment( Course course, Assignment assignment ){
-        HashMap<Assignment, HashMap> assignments = getAssignments( course );
+        Map<Assignment, Map> assignments = getAssignments( course );
 
         if( assignments.containsKey( course ) ){
             System.out.printf( "Errore: l'esame %s è già presente nel corso %s.\n", assignment.getTitolo(), course.getTitolo() );
@@ -72,10 +70,10 @@ public class CourseTest {
         Random rand = new Random();
 
         for( Course course : data.keySet() ){
-            HashMap<Assignment, HashMap> assignments = getAssignments( course );
+            Map<Assignment, Map> assignments = getAssignments( course );
 
             for( Assignment assignment : assignments.keySet() ){
-                HashMap<Student, Integer> scores = assignments.get( assignment );
+                Map<Student, Integer> scores = assignments.get( assignment );
 
                 for( Student student : students ){
                     int score = rand.nextInt( 10 ) + 1;
@@ -87,31 +85,35 @@ public class CourseTest {
 
     private static void printCourseAverage(){
         for( Course course  : data.keySet() ){
-            HashMap<Assignment, HashMap> assignments = data.get( course );
-            HashMap<Student, Double> current_scores = new HashMap<>();
+            Map<Assignment, Map> assignments = data.get( course );
+            HashMap<Student, Double> total_scores = new HashMap<>();
 
-            for( HashMap<Student, Integer> scores : assignments.values() ){
+            for( Map<Student, Integer> scores : assignments.values() ){
                 for( Student student : scores.keySet() ) {
-                    double current_score = current_scores.containsKey( student ) ? current_scores.get( student ) : 0.0;
-                    current_score = ( current_score + scores.get( student ) ) / 2.0;
-                    current_scores.put( student, current_score );
+                    double current_score;
+                    if( total_scores.containsKey( student ) )
+                        current_score = ( total_scores.get( student ) + scores.get( student ) ) / 2.0;
+                    else
+                        current_score = scores.get( student );
+                    total_scores.put( student, current_score );
                 }
             }
 
-            for( Student student : current_scores.keySet() )
-                System.out.printf("Lo studente %s %s ha ottenuto una media di: %f nel corso %s.\n", student.getCognome(), student.getNome(), current_scores.get( student ), course.getTitolo() );
+            for( Student student : total_scores.keySet() )
+                System.out.printf("Lo studente %s %s ha ottenuto una media di: %f nel corso %s.\n", student.getCognome(), student.getNome(), total_scores.get( student ), course.getTitolo() );
         }
     }
 
     private static void printAssignmentAverage(){
         for( Course course  : data.keySet() ) {
-            HashMap<Assignment, HashMap> assignments = data.get(course);
+            Map<Assignment, Map> assignments = data.get(course);
 
             for (Assignment assignment : assignments.keySet()) {
-                HashMap<Student, Integer> scores = assignments.get(assignment);
+                Map<Student, Integer> scores = assignments.get(assignment);
                 double average = 0.0;
                 for (Integer i : scores.values())
-                    average = (average + i) / 2.0;
+                    average += i;
+                average /= scores.size();
 
                 System.out.printf("La media dei voti nell'assignment %s del corso %s è stata di %f.\n", assignment.getTitolo(), course.getTitolo(), average);
             }
