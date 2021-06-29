@@ -15,28 +15,7 @@ public class ToDoApplication
 
     public static void main(String[] args) {
         printTitle();
-
-        boolean quit = false;
-        do {
-            printMainMenu();
-            int input = askForInt(1, 4);
-            switch( input ){
-                case 1:
-                    display("1");
-                    break;
-                case 2:
-                    display("2");
-                    break;
-                case 3:
-                    display("3");
-                    break;
-                default:
-                    quit = true;
-                    break;
-            }
-
-
-        }while( !quit );
+        mainMenu();
     }
 
     public static void display( String msg ){
@@ -50,7 +29,7 @@ public class ToDoApplication
 
     public static int askForInt(int from, int to){
         int result = -1;
-        boolean valid = true;
+        boolean valid = false;
 
         do {
             String input = askForInput();
@@ -85,7 +64,50 @@ public class ToDoApplication
         display( "------------------------\n\n" );
     }
 
-    public static void printMainMenu(){
-        display("1. Visualizza, 2. Aggiungi, Rimuovi, Modifica, 3. Import/Export, 4. Uscita\n");
+    public static void mainMenu(){
+        boolean quit = false;
+        do{
+            display("1. Visualizza, 2. Aggiungi, Rimuovi, Modifica, 3. Import/Export, 4. Uscita\n");
+            int input = askForInt(1, 4);
+            switch( input ) {
+                case 1: visualizzaMenu(); break;
+                case 2: editMenu(); break;
+                case 3: importExportMenu(); break;
+                default: quit = true; break;
+            }
+        }while( !quit );
+    }
+
+    public static void visualizzaMenu(){
+        boolean quit = false;
+        do {
+            display("1. Per priorità, 2. Per data, 3. Per stato, 4. Indietro\n");
+            int input = askForInt(1, 4);
+            switch ( input ){
+                default: quit = true; break;
+            }
+        }while(!quit);
+    }
+
+    public static void editMenu(){
+        boolean quit = false;
+        do{
+            display("1. Aggiungi, 2. Rimuovi, 3. Modifica, 4. Indietro\n");
+            int input = askForInt(1,4);
+            switch ( input ){
+                default: quit = true; break;
+            }
+        }while(!quit);
+    }
+
+    public static void importExportMenu(){
+        boolean quit = false;
+        do{
+            display("1. Export su file, 2. Import da file, 3. Indietro\n");
+            int input = askForInt(1,3);
+            switch ( input ){
+                default: quit = true; break;
+            }
+        }while(!quit);
     }
 }
