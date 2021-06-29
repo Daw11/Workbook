@@ -4,19 +4,20 @@ import java.io.Serializable;
 
 public class ToDo implements Serializable
 {
-    private long nextInt = 0;
-
-    private final long ID;
+    private long ID;
     private String titolo;
+    private String descrizione;
 
-    // ...costruttore con ID incrementale...
     public ToDo(){
-        ID = ++nextInt;
+        ID = ToDoRepository.nextID();
     }
 
     public ToDo cloneForUpdate() {
-        // fabbrica una copia esatta del To-Do (compreso l'ID)
-        return null;
+        ToDo t = new ToDo();
+        t.ID = ID;
+        t.titolo = titolo;
+        t.descrizione = descrizione;
+        return t;
     }
 
     public String prettyPrint(){
@@ -33,5 +34,13 @@ public class ToDo implements Serializable
 
     public void setTitolo(String titolo) {
         this.titolo = titolo;
+    }
+
+    public String getDescrizione() {
+        return descrizione;
+    }
+
+    public void setDescrizione(String descrizione) {
+        this.descrizione = descrizione;
     }
 }

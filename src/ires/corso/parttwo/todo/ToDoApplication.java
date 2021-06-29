@@ -28,12 +28,16 @@ public class ToDoApplication
         System.out.print( msg );
     }
 
-    public static String askForInput(){
+    private static String askForInput(){
         Scanner in = new Scanner( System.in );
         return in.nextLine();
     }
 
-    public static int askForInt(int from, int to){
+    public static String askForString(){
+        return askForInput();
+    }
+
+    public static int askForInt(){
         int result = -1;
         boolean valid = false;
 
@@ -41,11 +45,29 @@ public class ToDoApplication
             String input = askForInput();
             if( isInteger( input ) ){
                 result = Integer.parseInt( input );
-                if( intInRange( result, from, to ) )
-                    valid = true;
+                valid = true;
             }
             else {
                 display("Errore: non hai inserito un numero, riprova.\n");
+                valid = false;
+            }
+        }while( !valid );
+
+        return result;
+    }
+
+    public static int askForInt(int from, int to){
+        int result = -1;
+        boolean valid = false;
+
+        do {
+            int i = askForInt();
+            if( intInRange( i, from, to ) ){
+                result = i;
+                valid = true;
+            }
+            else {
+                display("Errore: non hai inserito un numero valido, riprova.\n");
                 valid = false;
             }
         }while( !valid );
@@ -101,6 +123,9 @@ public class ToDoApplication
             display("1. Aggiungi, 2. Rimuovi, 3. Modifica, 4. Indietro\n");
             int input = askForInt(1,4);
             switch ( input ){
+                case 1: ToDoManager.createNewToDo(); break;
+                case 2: ToDoManager.removeTodo(); break;
+                case 3: ToDoManager.updateToDo(); break;
                 default: quit = true; break;
             }
         }while(!quit);

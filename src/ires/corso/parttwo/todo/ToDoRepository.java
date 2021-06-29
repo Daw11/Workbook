@@ -20,10 +20,10 @@ public class ToDoRepository implements Serializable
 
     private static ToDoRepository _repository = null;
     Map<Long, ToDo> _data = new HashMap<>();
+    private long nextID = 0;
 
     private ToDoRepository(){}
 
-    // Serializzabile con la funzione writeObject()
     public static ToDoRepository loadFromFile(String fileName) {
         readFromFile( fileName );
         if( _repository == null )
@@ -35,41 +35,50 @@ public class ToDoRepository implements Serializable
         return _repository;
     }
 
-    public void delete(Long ID) {
-        _data.remove( ID );
+    public static long nextID(){
+        return ++_repository.nextID;
+    }
+
+    public static boolean has(long ID){
+        return _repository._data.containsKey( ID );
+    }
+
+    public static void delete(long ID) {
+       _repository._data.remove( ID );
     };
 
-    public void add(ToDo t) {
+    public static void add(ToDo t) {
         long ID = t.getID();
-        _data.put( ID, t );
+        _repository._data.put( ID, t );
     }
 
-    public void update(ToDo t) {
+    public static void update(ToDo t) {
         long ID = t.getID();
-        _data.put( ID, t );
+        _repository._data.put( ID, t );
     }
 
-    public List<ToDo> getToDoList() {
-        return new ArrayList<ToDo>( _data.values() );
+    public static ToDo getToDo(long ID){
+        return _repository._data.get( ID );
+    }
+
+    public static List<ToDo> getToDoList() {
+        return new ArrayList<ToDo>( _repository._data.values() );
     }
 
     public static void readFromFile(String fileName){
         try
         {
-            FileInputStream file = new FileInputStream(fileName);
-           if( file.available() == 0 )
-               return;
-
+           FileInputStream file = new FileInputStream(fileName);
            ObjectInputStream in = new ObjectInputStream(file);
-            _repository = (ToDoRepository) in.readObject();
+           _repository = (ToDoRepository) in.readObject();
            in.close();
            file.close();
         }
         catch(IOException ex) {
-            System.out.println("IOException is caught");
+            ToDoApplication.display("IOException is caught.\n");
         }
         catch(ClassNotFoundException ex) {
-            System.out.println("ClassNotFoundException is caught");
+            ToDoApplication.display("ClassNotFoundException is caught.\n");
         }
     }
 
@@ -82,7 +91,7 @@ public class ToDoRepository implements Serializable
             file.close();
         }
         catch(IOException ex) {
-            System.out.println("Errore nella scrittura su file");
+            ToDoApplication.display("Errore nella scrittura su file.\n");
         }
     }
 }
