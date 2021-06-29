@@ -13,9 +13,15 @@ public class ToDoApplication
     // 4. Chiede conferma e serializza in uscita
     // 5. Fornisce anche i metodi della classe "lettore" di quiz... askForInput , display
 
+    private static ToDoRepository repository;
+
     public static void main(String[] args) {
+        final String repositoryPath = "todos.txt";
+
+        repository = ToDoRepository.loadFromFile( repositoryPath );
         printTitle();
         mainMenu();
+        repository.writeToFile( repositoryPath );
     }
 
     public static void display( String msg ){
