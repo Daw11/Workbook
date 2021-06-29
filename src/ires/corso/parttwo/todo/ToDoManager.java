@@ -23,7 +23,7 @@ public class ToDoManager
 
     public static void updateToDo() {
         ToDoApplication.display("Inserisci l'ID del ToDo da modificare.\n");
-        long ID = askForID();
+        long ID = ToDoApplication.askForLong();
         if( !ToDoRepository.has( ID ) ){
             ToDoApplication.display("Errore, il ToDo non esiste.\n\n");
             return;
@@ -43,7 +43,7 @@ public class ToDoManager
     public static void removeTodo(){
         ToDoApplication.display("Inserisci l'ID del ToDo da eliminare.\n");
         ToDoApplication.display("ID: ");
-        Long ID = askForID();
+        Long ID = ToDoApplication.askForLong();
         if( !ToDoRepository.has( ID ) ){
             ToDoApplication.display("Errore, il ToDo non esiste.\n\n");
             return;
@@ -64,21 +64,5 @@ public class ToDoManager
         t.setTitolo( ToDoApplication.askForString() );
         ToDoApplication.display("Descrizione:  ");
         t.setDescrizione( ToDoApplication.askForString() );
-    }
-
-    private static long askForID(){
-        long result = -1;
-        boolean valid = false;
-        do {
-            String input = ToDoApplication.askForString();
-            if( input.matches( "\\d+") ) {
-                valid = true;
-                result = Long.parseLong( input );
-            }
-            else
-                ToDoApplication.display("Errore: non hai inserito un numero, riprova");
-        }while(!valid);
-
-        return result;
     }
 }

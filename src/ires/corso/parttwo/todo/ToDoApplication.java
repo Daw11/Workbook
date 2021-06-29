@@ -75,11 +75,28 @@ public class ToDoApplication
         return result;
     }
 
+
     public static boolean intInRange( int i, int from, int to ){
         boolean valid = from <= i && i <= to;
         if( !valid )
             display("Errore: il numero non è valido.\n");
         return valid;
+    }
+
+    public static long askForLong(){
+        long result = -1;
+        boolean valid = false;
+        do {
+            String input = ToDoApplication.askForString();
+            if( input.matches( "\\d+") ) {
+                valid = true;
+                result = Long.parseLong( input );
+            }
+            else
+                ToDoApplication.display("Errore: non hai inserito un numero, riprova");
+        }while(!valid);
+
+        return result;
     }
 
     public static boolean isInteger( String str ){
