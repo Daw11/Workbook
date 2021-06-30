@@ -11,8 +11,8 @@ public class ToDoManager
 
     public static void createNewToDo() {
         ToDo t = new ToDo();
-        askForTodo(t);
-        t.prettyPrint();
+        askForTodo( t, false );
+        ToDoApplication.display( t.prettyPrint() );
         ToDoApplication.display("\nVuoi creare questo ToDo? (s/n)\n");
         String input = ToDoApplication.askForString();
         if( input.toLowerCase().equals("s") ) {
@@ -29,9 +29,10 @@ public class ToDoManager
             return;
         }
         ToDo original = ToDoRepository.getToDo( ID );
+        ToDoApplication.display( original.prettyPrint() );
         ToDo copy = original.cloneForUpdate();
-        askForTodo(copy);
-        copy.prettyPrint();
+        askForTodo( copy, true );
+        ToDoApplication.display( copy.prettyPrint() );
         ToDoApplication.display("\nVuoi applicare queste modifiche? (s/n)\n");
         String input = ToDoApplication.askForString();
         if( input.toLowerCase().equals("s") ) {
@@ -49,7 +50,7 @@ public class ToDoManager
             return;
         }
         ToDo t = ToDoRepository.getToDo( ID );
-        t.prettyPrint();
+        ToDoApplication.display( t.prettyPrint() );
         ToDoApplication.display("Sei sicuro di voler eliminare questo ToDo? (s,n)");
         String input = ToDoApplication.askForString();
         if( !input.toLowerCase().equals("s") )
@@ -58,11 +59,18 @@ public class ToDoManager
         ToDoApplication.display( "Il ToDo è stato eliminato.\n\n" );
     }
 
-    private static void askForTodo( ToDo t ){
+    private static void askForTodo( ToDo t, boolean isEdit ){
+        String input;
         ToDoApplication.display("\nInserisci i dati:\n");
+
         ToDoApplication.display("Titolo: ");
-        t.setTitolo( ToDoApplication.askForString() );
+        input = ToDoApplication.askForString();
+        if( !(isEdit && input.trim().isEmpty()) )
+            t.setTitolo( input );
+
         ToDoApplication.display("Descrizione:  ");
-        t.setDescrizione( ToDoApplication.askForString() );
+        input = ToDoApplication.askForString();
+        if( !(isEdit && input.trim().isEmpty()) )
+            t.setDescrizione( input );
     }
 }

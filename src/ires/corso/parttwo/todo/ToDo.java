@@ -21,7 +21,7 @@ public class ToDo implements Serializable
     }
 
     public String prettyPrint(){
-        return String.format("ID: %d, titolo: %s", ID, titolo);
+        return String.format("\nID: %d, titolo: %s, descrizione: %s", ID, titolo, descrizione);
     }
 
     public long getID(){
