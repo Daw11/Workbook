@@ -106,7 +106,7 @@ public class ToDoApplication
         return str.matches( "\\d+" );
     }
 
-    public static LocalDateTime askForDateTime( DateTimeFormatter dtf ){
+    public static LocalDateTime askForDateTime( DateTimeFormatter dtf, boolean allowBlank ){
         LocalDateTime result = null;
         boolean valid = false;
         do {
@@ -115,8 +115,12 @@ public class ToDoApplication
                 result = LocalDateTime.parse(str, dtf);
             }
             catch ( DateTimeParseException e ){
-                display("Errore, la stringa inserita non è una data, riprova.\n");
-                continue;
+                if( allowBlank && str.isEmpty() )
+                    valid = true;
+                else {
+                    display("Errore, la stringa inserita non è una data, riprova.\n");
+                    continue;
+                }
             }
             valid = true;
         }while(!valid);

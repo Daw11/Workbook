@@ -53,17 +53,20 @@ public class ToDoManager
         }
         ToDo t = ToDoRepository.getToDo( ID );
         ToDoApplication.display( t.prettyPrint() );
-        ToDoApplication.display("Sei sicuro di voler eliminare questo ToDo? (s,n)");
+        ToDoApplication.display("Sei sicuro di voler eliminare questo ToDo? (s,n): ");
         String input = ToDoApplication.askForString();
         if( !input.toLowerCase().equals("s") )
             return;
         ToDoRepository.delete( ID );
-        ToDoApplication.display( "Il ToDo è stato eliminato.\n\n" );
+        ToDoApplication.display( "Il ToDo è stato eliminato.\n" );
     }
 
     private static void askForTodo( ToDo t, boolean isEdit ){
         String input;
-        ToDoApplication.display("\nInserisci i dati:\n");
+        if( isEdit )
+            ToDoApplication.display("Inserisci i dati, lascia il campo vuoto se vuoi mantenere gli originali:\n");
+        else
+            ToDoApplication.display("Inserisci i dati:\n");
 
         ToDoApplication.display("Titolo: ");
         input = ToDoApplication.askForString();
@@ -134,7 +137,8 @@ public class ToDoManager
         t.setPriority( priority );
 
         ToDoApplication.display( "Data (" + ToDo.dateFormat + "): " );
-        LocalDateTime date = ToDoApplication.askForDateTime( ToDo.getDateFormatter() );
-        t.setDataConsegna( date );
+        LocalDateTime date = ToDoApplication.askForDateTime( ToDo.getDateFormatter(), isEdit );
+        if( date != null )
+            t.setDataConsegna( date );
     }
 }
