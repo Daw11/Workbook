@@ -13,26 +13,9 @@ public class ToDoList
     // Si appoggia a un metodo di ToDoRepository per avere una lista (= copia dei TO-DO
     // originali) dei TO-DO attualmente a sistema, cioè un ArrayList facilmente utilizzabile
 
-    private final static Comparator<ToDo> priorityComparator = new Comparator<ToDo>() {
-        @Override
-        public int compare(ToDo o1, ToDo o2) {
-            return o1.getPriority().compareTo( o2.getPriority() );
-        }
-    };
-
-    private final static Comparator<ToDo> dateComparator = new Comparator<ToDo>() {
-        @Override
-        public int compare(ToDo o1, ToDo o2) {
-            return o1.getDataConsegna().compareTo( o2.getDataConsegna() );
-        }
-    };
-
-    private final static Comparator<ToDo> stateComparator = new Comparator<ToDo>() {
-        @Override
-        public int compare(ToDo o1, ToDo o2) {
-            return o1.getStato().compareTo( o2.getStato() );
-        }
-    };
+    private final static Comparator<ToDo> priorityComparator = (ToDo o1, ToDo o2) -> o1.getPriority().compareTo( o2.getPriority() );
+    private final static Comparator<ToDo> dateComparator = (ToDo o1, ToDo o2) -> o1.getDataConsegna().compareTo( o2.getDataConsegna() );
+    private final static Comparator<ToDo> stateComparator = (ToDo o1, ToDo o2) ->o1.getStato().compareTo( o2.getStato() );
 
     private static void showList( String msg, Comparator comparator ){
         ToDoApplication.display(msg);
