@@ -152,7 +152,7 @@ public class ToDoApplication
             switch ( input ){
                 case 1: ToDoList.viewByPriority(); break;
                 case 2: ToDoList.viewByDate(); break;
-                case 3: ToDoList.viewByState();
+                case 3: ToDoList.viewByState(); break;
                 default: quit = true; break;
             }
         }while(!quit);

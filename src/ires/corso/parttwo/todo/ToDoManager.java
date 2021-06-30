@@ -15,7 +15,7 @@ public class ToDoManager
         ToDo t = new ToDo();
         askForTodo( t, false );
         ToDoApplication.display( t.prettyPrint() );
-        ToDoApplication.display("\nVuoi creare questo ToDo? (s/n)\n");
+        ToDoApplication.display("Vuoi creare questo ToDo? (s/n)\n");
         String input = ToDoApplication.askForString();
         if( input.toLowerCase().equals("s") ) {
             ToDoRepository.add(t);
@@ -35,7 +35,7 @@ public class ToDoManager
         ToDo copy = original.cloneForUpdate();
         askForTodo( copy, true );
         ToDoApplication.display( copy.prettyPrint() );
-        ToDoApplication.display("\nVuoi applicare queste modifiche? (s/n)\n");
+        ToDoApplication.display("Vuoi applicare queste modifiche? (s/n)\n");
         String input = ToDoApplication.askForString();
         if( input.toLowerCase().equals("s") ) {
             ToDoRepository.add(copy);
