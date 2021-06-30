@@ -1,5 +1,8 @@
 package ires.corso.parttwo.todo;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 // GRUPPO 3/4:
@@ -34,7 +37,7 @@ public class ToDoApplication
     }
 
     public static String askForString(){
-        return askForInput();
+        return askForInput().trim();
     }
 
     public static int askForInt(){
@@ -93,7 +96,7 @@ public class ToDoApplication
                 result = Long.parseLong( input );
             }
             else
-                ToDoApplication.display("Errore: non hai inserito un numero, riprova");
+                ToDoApplication.display("Errore: non hai inserito un numero, riprova\n");
         }while(!valid);
 
         return result;
@@ -101,6 +104,24 @@ public class ToDoApplication
 
     public static boolean isInteger( String str ){
         return str.matches( "\\d+" );
+    }
+
+    public static LocalDateTime askForDateTime( DateTimeFormatter dtf ){
+        LocalDateTime result = null;
+        boolean valid = false;
+        do {
+            String str = askForString();
+            try {
+                result = LocalDateTime.parse(str, dtf);
+            }
+            catch ( DateTimeParseException e ){
+                display("Errore, la stringa inserita non è una data, riprova.\n");
+                continue;
+            }
+            valid = true;
+        }while(!valid);
+
+        return result;
     }
 
     public static void printTitle(){
