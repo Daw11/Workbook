@@ -182,6 +182,8 @@ public class ToDoApplication
             display("1. Export su file, 2. Import da file, 3. Indietro\n");
             int input = askForInt(1,3);
             switch ( input ){
+                case 1: ToDoImportExport.exportFile(); break;
+                case 2: ToDoImportExport.importFile(); break;
                 default: quit = true; break;
             }
         }while(!quit);
