@@ -66,13 +66,12 @@ public class ToDoRepository implements Serializable
     }
 
     public static void readFromFile(String fileName){
-        try
+        try(
+                FileInputStream file = new FileInputStream(fileName);
+                ObjectInputStream in = new ObjectInputStream(file)
+        )
         {
-           FileInputStream file = new FileInputStream(fileName);
-           ObjectInputStream in = new ObjectInputStream(file);
            _repository = (ToDoRepository) in.readObject();
-           in.close();
-           file.close();
         }
         catch(IOException ex) {
             ToDoApplication.display("IOException is caught.\n");
@@ -83,12 +82,11 @@ public class ToDoRepository implements Serializable
     }
 
     public static void writeToFile(String fileName) {
-        try {
+        try (
             FileOutputStream file = new FileOutputStream(fileName);
-            ObjectOutputStream out = new ObjectOutputStream(file);
+            ObjectOutputStream out = new ObjectOutputStream(file)
+        ){
             out.writeObject( _repository );
-            out.close();
-            file.close();
         }
         catch(IOException ex) {
             ToDoApplication.display("Errore nella scrittura su file.\n");
