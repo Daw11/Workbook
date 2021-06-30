@@ -39,7 +39,7 @@ public class ToDo implements Serializable
 
     public String prettyPrint(){
         return String.format(
-                "\nID: %d, titolo: %s, descrizione: %s, stato: %s, priorità: %s, data consegna: %s",
+                "ID: %d, titolo: %s, descrizione: %s, stato: %s, priorità: %s, data consegna: %s\n",
                 ID, titolo, descrizione, stato.name(), priority.name(), dataConsegna.format( getDateFormatter() ).toString()
         );
     }
@@ -90,5 +90,9 @@ public class ToDo implements Serializable
 
     public void setDataConsegna(LocalDateTime data_consegna) {
         this.dataConsegna = data_consegna;
+    }
+
+    public LocalDateTime getDataCreazione() {
+        return dataCreazione;
     }
 }

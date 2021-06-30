@@ -150,6 +150,9 @@ public class ToDoApplication
             display("1. Per priorità, 2. Per data, 3. Per stato, 4. Indietro\n");
             int input = askForInt(1, 4);
             switch ( input ){
+                case 1: ToDoList.viewByPriority(); break;
+                case 2: ToDoList.viewByDate(); break;
+                case 3: ToDoList.viewByState();
                 default: quit = true; break;
             }
         }while(!quit);
