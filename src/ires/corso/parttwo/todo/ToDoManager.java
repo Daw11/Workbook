@@ -98,18 +98,10 @@ public class ToDoManager
             ToDoApplication.display( "Stato (1: DA_FARE, 2: IN_ESECUZIONE, 3: COMPLETATA, 4: ANNULLATA): " );
             String input = ToDoApplication.askForString();
             switch (input) {
-                case "1":
-                    stato = ToDo.Stato.DA_FARE;
-                    break;
-                case "2":
-                    stato = ToDo.Stato.IN_ESECUZIONE;
-                    break;
-                case "3":
-                    stato = ToDo.Stato.COMPLETATA;
-                    break;
-                case "4":
-                    stato = ToDo.Stato.ANNULLATA;
-                    break;
+                case "1": stato = ToDo.Stato.DA_FARE; break;
+                case "2": stato = ToDo.Stato.IN_ESECUZIONE; break;
+                case "3": stato = ToDo.Stato.COMPLETATA; break;
+                case "4": stato = ToDo.Stato.ANNULLATA; break;
                 case "":
                     if( isEdit ){
                         stato = t.getStato();
@@ -132,15 +124,9 @@ public class ToDoManager
             ToDoApplication.display( "Priorità (1: ALTA, 2: MEDIA, 3: BASSA): " );
             String input = ToDoApplication.askForString();
             switch (input) {
-                case "1":
-                    priority = ToDo.Priority.ALTA;
-                    break;
-                case "2":
-                    priority = ToDo.Priority.MEDIA;
-                    break;
-                case "3":
-                    priority = ToDo.Priority.BASSA;
-                    break;
+                case "1": priority = ToDo.Priority.ALTA; break;
+                case "2": priority = ToDo.Priority.MEDIA; break;
+                case "3": priority = ToDo.Priority.BASSA; break;
                 case "":
                     if( isEdit ){
                         priority = t.getPriority();
