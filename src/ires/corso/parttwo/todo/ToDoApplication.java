@@ -156,7 +156,7 @@ public class ToDoApplication
         ToDoMenuLeaf importToDo = new ToDoMenuLeaf("2", "Import da file", ToDoImportExport::importFile );
         ToDoMenuBranch importExportMenu = new ToDoMenuBranch("3", "Import/Export", Arrays.asList( exportToDo, importToDo ));
 
-        ToDoMenuBranch mainMenu = new ToDoMenuBranch("MainMenu", "Menu Principale", Arrays.asList( visualizzaMenu, editMenu, importExportMenu ), "Esci");
+        ToDoMenuBranch mainMenu = new ToDoMenuBranch("MainMenu", "Menu Principale", Arrays.asList( visualizzaMenu, editMenu, importExportMenu ), null, "Esci");
         return mainMenu;
     }
 }

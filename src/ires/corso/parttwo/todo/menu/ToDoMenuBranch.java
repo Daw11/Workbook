@@ -18,19 +18,21 @@ public class ToDoMenuBranch extends ToDoMenuItem {
     // Public constructor
     public ToDoMenuBranch(String ID, String title, List<ToDoMenuItem> options) {
         super(ID, title);
-        _options.addAll(options);
-        addExitOption( _defaultExitMessage );
+        _options.addAll( options );
+        String exitID = String.valueOf( _options.size() + 1 );
+        initExit( exitID, _defaultExitMessage );
     }
 
-    public ToDoMenuBranch(String ID, String title, List<ToDoMenuItem> options, String exitMessage) {
+    public ToDoMenuBranch(String ID, String title, List<ToDoMenuItem> options, String exitID, String exitMessage) {
         super(ID, title);
-        _options.addAll(options);
-        addExitOption( exitMessage );
+        _options.addAll( options );
+        if( exitID == null )
+            exitID = String.valueOf( _options.size() + 1 );
+        initExit( exitID, exitMessage );
     }
 
-    private void addExitOption( String exitMessage ){
-        String ID = String.valueOf( _options.size() + 1 );
-        ToDoMenuLeaf exitLeaf = new ToDoMenuLeaf( ID, exitMessage, () -> _exit = true );
+    private void initExit( String exitID, String exitMessage){
+        ToDoMenuLeaf exitLeaf = new ToDoMenuLeaf( exitID, exitMessage, () -> _exit = true );
         _options.add( exitLeaf );
     }
 

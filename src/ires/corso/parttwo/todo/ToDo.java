@@ -3,6 +3,7 @@ package ires.corso.parttwo.todo;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class ToDo implements Serializable
 {
@@ -40,12 +41,16 @@ public class ToDo implements Serializable
     public String prettyPrint(){
         return String.format(
                 "ID: %d, titolo: %s, descrizione: %s, stato: %s, priorità: %s, data consegna: %s\n",
-                ID, titolo, descrizione, stato.name(), priority.name(), dataConsegna.format( getDateFormatter() ).toString()
+                ID, titolo, descrizione, stato.name(), priority.name(), formatDate( dataConsegna )
         );
     }
 
     public static DateTimeFormatter getDateFormatter(){
         return DateTimeFormatter.ofPattern( dateFormat );
+    }
+
+    public static String formatDate( LocalDateTime date ){
+        return date.format( getDateFormatter() ).toString();
     }
 
     public long getID(){
@@ -95,4 +100,5 @@ public class ToDo implements Serializable
     public LocalDateTime getDataCreazione() {
         return dataCreazione;
     }
+
 }
