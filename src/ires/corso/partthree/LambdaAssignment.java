@@ -36,7 +36,8 @@ public class LambdaAssignment {
         boolean valid;
         do {
             valid = true;
-            LongStream longStream = Arrays.asList( in.nextLine().split(",") ).stream().map(String::trim).mapToLong(n -> Long.parseLong(n));
+            Stream<String> numbersString =  Arrays.asList( in.nextLine().split(",") ).stream();
+            LongStream longStream = numbersString.map(String::trim).mapToLong(n -> Long.parseLong(n));
             try {
                 OptionalDouble averageResult = longStream.distinct().map( n -> n * n ).average();
                 if( !averageResult.isPresent() ){
