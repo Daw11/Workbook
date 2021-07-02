@@ -41,9 +41,6 @@ public class ToDoImportExport
     public static void importFile(){
         ToDoApplication.displayln("Su quale file vuoi fare l'import?");
         String filePath = ToDoApplication.askForString();
-        ToDoApplication.displayln("Vuoi sovrascrivere tutti i ToDo con quelli importati? (s/n)");
-        boolean overwrite = ToDoApplication.askForString().toLowerCase().equals("s");
-
         Path inputFile = Paths.get( filePath );
         List<List<String>> todoData = new ArrayList<>();
 
@@ -68,10 +65,12 @@ public class ToDoImportExport
             return;
         }
 
+        ToDoApplication.displayln("Vuoi sovrascrivere tutti i ToDo con quelli importati? (s/n)");
+        boolean overwrite = ToDoApplication.askForString().toLowerCase().equals("s");
         if( overwrite )
             ToDoRepository.clear();
 
-        todoData.forEach( ToDo::createFromString );
+        todoData.stream().map( ToDo::createFromString ).forEach( ToDoRepository::add );
 
         ToDoApplication.displayln( "I ToDo sono stati importati." );
     }

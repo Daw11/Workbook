@@ -63,24 +63,17 @@ public class ToDo implements Serializable
             String key = action.substring( 0, separator );
             String value = action.substring( separator + 1 );
             switch ( key ){
-                case "data creazione":
-                    LocalDateTime ldtCreazione = getDateFromString( value );
-                    t.setDataCreazione( ldtCreazione );
-                    break;
-                case "titolo": t.setTitolo(value); break;
-                case "descrizione": t.setDescrizione(value); break;
-                case "stato": t.setStato( Stato.valueOf( value ) ); break;
-                case "priorità": t.setPriority( Priority.valueOf( value ) ); break;
-                case "data consegna":
-                    LocalDateTime ldtConsegna = getDateFromString( value );
-                    t.setDataConsegna( ldtConsegna );
-                    break;
+                case "data creazione": t.setDataCreazione( value ); break;
+                case "titolo": t.setTitolo( value ); break;
+                case "descrizione": t.setDescrizione( value ); break;
+                case "stato": t.setStato( value ); break;
+                case "priorità": t.setPriority( value ); break;
+                case "data consegna": t.setDataConsegna( value ); break;
                 default:
                     ToDoApplication.displayln("Errore, la chiave non è valida.");
             }
         }
 
-        ToDoRepository.add( t );
         return t;
     }
 
@@ -132,12 +125,20 @@ public class ToDo implements Serializable
         this.stato = stato;
     }
 
+    public void setStato( String s ){
+        this.stato = Stato.valueOf( s );
+    }
+
     public Priority getPriority() {
         return priority;
     }
 
     public void setPriority(Priority priority) {
         this.priority = priority;
+    }
+
+    public void setPriority( String s ){
+        this.priority = Priority.valueOf( s );
     }
 
     public LocalDateTime getDataConsegna() {
@@ -148,11 +149,21 @@ public class ToDo implements Serializable
         this.dataConsegna = data_consegna;
     }
 
+    public void setDataConsegna(String s) {
+        LocalDateTime ldt = getDateFromString( s );
+        this.dataConsegna = ldt;
+    }
+
     public LocalDateTime getDataCreazione() {
         return dataCreazione;
     }
 
     private void setDataCreazione( LocalDateTime data_creazione ) {
         this.dataCreazione = data_creazione;
+    }
+
+    private void setDataCreazione( String s ) {
+        LocalDateTime ldt = getDateFromString( s );
+        this.dataCreazione = ldt;
     }
 }
