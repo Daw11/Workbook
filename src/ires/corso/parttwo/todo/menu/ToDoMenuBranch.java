@@ -13,22 +13,25 @@ import java.util.stream.Stream;
 public class ToDoMenuBranch extends ToDoMenuItem {
     private List<ToDoMenuItem> _options = new ArrayList<>();
     private boolean _exit;
-    private String _exitMessage = "Indietro";
+    private final String _defaultExitMessage = "Indietro";
 
     // Public constructor
     public ToDoMenuBranch(String ID, String title, List<ToDoMenuItem> options) {
         super(ID, title);
         _options.addAll(options);
+        addExitOption( _defaultExitMessage );
     }
 
-    public void setExitMessage(String exitMessage) {
-        this._exitMessage = exitMessage;
+    public ToDoMenuBranch(String ID, String title, List<ToDoMenuItem> options, String exitMessage) {
+        super(ID, title);
+        _options.addAll(options);
+        addExitOption( exitMessage );
     }
 
-    private Stream<ToDoMenuItem> optionsWithExit(){
+    private void addExitOption( String exitMessage ){
         String ID = String.valueOf( _options.size() + 1 );
-        ToDoMenuLeaf exitLeaf = new ToDoMenuLeaf( ID, _exitMessage, () -> _exit = true );
-        return Stream.concat( _options.stream(), Stream.of( exitLeaf ) );
+        ToDoMenuLeaf exitLeaf = new ToDoMenuLeaf( ID, exitMessage, () -> _exit = true );
+        _options.add( exitLeaf );
     }
 
     @Override
@@ -39,7 +42,7 @@ public class ToDoMenuBranch extends ToDoMenuItem {
         do {
             printContent();
             String choice = in.nextLine();
-            Optional<ToDoMenuItem> selected = optionsWithExit().filter( o -> o.getID().equals( choice ) ).findFirst();
+            Optional<ToDoMenuItem> selected = _options.stream().filter( o -> o.getID().equals( choice ) ).findFirst();
             if( selected.isPresent() )
                 selected.get().run();
             else
@@ -49,6 +52,6 @@ public class ToDoMenuBranch extends ToDoMenuItem {
 
     private void printContent() {
         ToDoApplication.displayln( getTitle() );
-        optionsWithExit().map( ToDoMenuItem::toString ).forEach( ToDoApplication::displayln );
+        _options.stream().map( ToDoMenuItem::toString ).forEach( ToDoApplication::displayln );
     }
 }
