@@ -78,12 +78,25 @@ public class ToDoManager
         if( !(isEdit && input.isEmpty()) )
             t.setDescrizione( input );
 
+        ToDo.Stato stato = askForStato( t, isEdit );
+        t.setStato( stato );
+
+        ToDo.Priority priority = askForPriority( t, isEdit );
+        t.setPriority( priority );
+
+        ToDoApplication.display( "Data (" + ToDo.dateFormat + "): " );
+        LocalDateTime date = ToDoApplication.askForDateTime( ToDo.getDateFormatter(), isEdit );
+        if( date != null )
+            t.setDataConsegna( date );
+    }
+
+    private static ToDo.Stato askForStato( ToDo t, boolean isEdit ){
         ToDo.Stato stato = null;
         boolean valid;
         do {
             valid = true;
             ToDoApplication.display( "Stato (1: DA_FARE, 2: IN_ESECUZIONE, 3: COMPLETATA, 4: ANNULLATA): " );
-            input = ToDoApplication.askForString();
+            String input = ToDoApplication.askForString();
             switch (input) {
                 case "1":
                     stato = ToDo.Stato.DA_FARE;
@@ -107,13 +120,17 @@ public class ToDoManager
                     valid = false;
             }
         }while( !valid );
-        t.setStato( stato );
 
+        return stato;
+    }
+
+    private static ToDo.Priority askForPriority( ToDo t, boolean isEdit ){
         ToDo.Priority priority = null;
+        boolean valid;
         do {
             valid = true;
             ToDoApplication.display( "Priorità (1: ALTA, 2: MEDIA, 3: BASSA): " );
-            input = ToDoApplication.askForString();
+            String input = ToDoApplication.askForString();
             switch (input) {
                 case "1":
                     priority = ToDo.Priority.ALTA;
@@ -134,11 +151,7 @@ public class ToDoManager
                     valid = false;
             }
         }while( !valid );
-        t.setPriority( priority );
 
-        ToDoApplication.display( "Data (" + ToDo.dateFormat + "): " );
-        LocalDateTime date = ToDoApplication.askForDateTime( ToDo.getDateFormatter(), isEdit );
-        if( date != null )
-            t.setDataConsegna( date );
+        return priority;
     }
 }
