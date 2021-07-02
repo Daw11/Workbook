@@ -3,7 +3,10 @@ package ires.corso.parttwo.todo;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class ToDo implements Serializable
 {
@@ -43,6 +46,54 @@ public class ToDo implements Serializable
                 "ID: %d, titolo: %s, descrizione: %s, stato: %s, priorità: %s, data consegna: %s\n",
                 ID, titolo, descrizione, stato.name(), priority.name(), formatDate( dataConsegna )
         );
+    }
+
+    public String exportString(){
+        return String.format(
+                "data creazione:%s\ntitolo:%s\ndescrizione:%s\nstato:%s\npriorità:%s\ndata consegna:%s\n",
+                formatDate( dataCreazione ), titolo, descrizione, stato.name(), priority.name(), formatDate( dataConsegna )
+        );
+    }
+
+    public static ToDo createFromString( List<String> s ){
+        ToDo t = new ToDo();
+
+        for( String action : s ){
+            int separator = action.indexOf(":");
+            String key = action.substring( 0, separator );
+            String value = action.substring( separator + 1 );
+            switch ( key ){
+                case "data creazione":
+                    LocalDateTime ldtCreazione = getDateFromString( value );
+                    t.setDataCreazione( ldtCreazione );
+                    break;
+                case "titolo": t.setTitolo(value); break;
+                case "descrizione": t.setDescrizione(value); break;
+                case "stato": t.setStato( Stato.valueOf( value ) ); break;
+                case "priorità": t.setPriority( Priority.valueOf( value ) ); break;
+                case "data consegna":
+                    LocalDateTime ldtConsegna = getDateFromString( value );
+                    t.setDataConsegna( ldtConsegna );
+                    break;
+                default:
+                    ToDoApplication.displayln("Errore, la chiave non è valida.");
+            }
+        }
+
+        ToDoRepository.add( t );
+        return t;
+    }
+
+    private static LocalDateTime getDateFromString( String s ){
+        LocalDateTime ldt = null;
+        try {
+            ldt = LocalDateTime.parse(s, getDateFormatter());
+        }
+        catch ( DateTimeParseException e ){
+            ToDoApplication.displayln("Errore durante l'importazione del file. La data inserita non è valida.");
+        }
+
+        return ldt;
     }
 
     public static DateTimeFormatter getDateFormatter(){
@@ -101,4 +152,7 @@ public class ToDo implements Serializable
         return dataCreazione;
     }
 
+    private void setDataCreazione( LocalDateTime data_creazione ) {
+        this.dataCreazione = data_creazione;
+    }
 }

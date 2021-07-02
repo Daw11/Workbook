@@ -45,7 +45,9 @@ public class ToDoRepository implements Serializable
 
     public static void delete(long ID) {
        _repository._data.remove( ID );
-    };
+    }
+
+    public static void clear() { _repository._data.clear(); }
 
     public static void add(ToDo t) {
         long ID = t.getID();
