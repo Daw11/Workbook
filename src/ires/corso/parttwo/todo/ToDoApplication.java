@@ -157,6 +157,7 @@ public class ToDoApplication
         ToDoMenuBranch importExportMenu = new ToDoMenuBranch("3", "Import/Export", Arrays.asList( exportToDo, importToDo ));
 
         ToDoMenuBranch mainMenu = new ToDoMenuBranch("MainMenu", "Menu Principale", Arrays.asList( visualizzaMenu, editMenu, importExportMenu ));
+        mainMenu.setExitMessage("Esci");
         return mainMenu;
     }
 }

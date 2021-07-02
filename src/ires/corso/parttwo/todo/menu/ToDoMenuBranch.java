@@ -12,6 +12,8 @@ import java.util.stream.Stream;
 // OPZIONE: contiene altri elementi
 public class ToDoMenuBranch extends ToDoMenuItem {
     private List<ToDoMenuItem> _options = new ArrayList<>();
+    private boolean _exit;
+    private String _exitMessage = "Indietro";
 
     // Public constructor
     public ToDoMenuBranch(String ID, String title, List<ToDoMenuItem> options) {
@@ -19,24 +21,34 @@ public class ToDoMenuBranch extends ToDoMenuItem {
         _options.addAll(options);
     }
 
+    public void setExitMessage(String exitMessage) {
+        this._exitMessage = exitMessage;
+    }
+
+    private Stream<ToDoMenuItem> optionsWithExit(){
+        String ID = String.valueOf( _options.size() + 1 );
+        ToDoMenuLeaf exitLeaf = new ToDoMenuLeaf( ID, _exitMessage, () -> _exit = true );
+        return Stream.concat( _options.stream(), Stream.of( exitLeaf ) );
+    }
+
     @Override
     public void run() {
         Scanner in = new Scanner(System.in);
 
-        boolean exit = false;
+        _exit = false;
         do {
             printContent();
             String choice = in.nextLine();
-            Optional<ToDoMenuItem> selected = _options.stream().filter( o -> o.getID().equals( choice ) ).findFirst();
+            Optional<ToDoMenuItem> selected = optionsWithExit().filter( o -> o.getID().equals( choice ) ).findFirst();
             if( selected.isPresent() )
                 selected.get().run();
             else
-                exit = true;
-        }while( !exit );
+                ToDoApplication.displayln( "L'opzione che hai selezionato non è valida." );
+        }while( !_exit );
     }
 
     private void printContent() {
-        ToDoApplication.display( getTitle() + "\n" );
-        _options.stream().map( ToDoMenuItem::toString ).forEach( ToDoApplication::displayln );
+        ToDoApplication.displayln( getTitle() );
+        optionsWithExit().map( ToDoMenuItem::toString ).forEach( ToDoApplication::displayln );
     }
 }
