@@ -1,8 +1,13 @@
 package ires.corso.parttwo.todo;
 
+import ires.corso.parttwo.todo.menu.ToDoMenuBranch;
+import ires.corso.parttwo.todo.menu.ToDoMenuItem;
+import ires.corso.parttwo.todo.menu.ToDoMenuLeaf;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 // GRUPPO 3/4:
@@ -23,13 +28,15 @@ public class ToDoApplication
 
         repository = ToDoRepository.loadFromFile( repositoryPath );
         printTitle();
-        mainMenu();
+        ToDoMenuBranch menu = createMenu();
+        menu.run();
         repository.writeToFile( repositoryPath );
     }
 
     public static void display( String msg ){
         System.out.print( msg );
     }
+    public static void displayln( String msg ){ System.out.println( msg ); }
 
     private static String askForInput(){
         Scanner in = new Scanner( System.in );
@@ -51,7 +58,7 @@ public class ToDoApplication
                 valid = true;
             }
             else {
-                display("Errore: non hai inserito un numero, riprova.\n");
+                displayln("Errore: non hai inserito un numero, riprova.");
                 valid = false;
             }
         }while( !valid );
@@ -70,7 +77,7 @@ public class ToDoApplication
                 valid = true;
             }
             else {
-                display("Errore: non hai inserito un numero valido, riprova.\n");
+                displayln("Errore: non hai inserito un numero valido, riprova.");
                 valid = false;
             }
         }while( !valid );
@@ -82,7 +89,7 @@ public class ToDoApplication
     public static boolean intInRange( int i, int from, int to ){
         boolean valid = from <= i && i <= to;
         if( !valid )
-            display("Errore: il numero non è valido.\n");
+            displayln("Errore: il numero non è valido.");
         return valid;
     }
 
@@ -96,7 +103,7 @@ public class ToDoApplication
                 result = Long.parseLong( input );
             }
             else
-                ToDoApplication.display("Errore: non hai inserito un numero, riprova\n");
+                ToDoApplication.displayln("Errore: non hai inserito un numero, riprova");
         }while(!valid);
 
         return result;
@@ -118,7 +125,7 @@ public class ToDoApplication
                 if( allowBlank && str.isEmpty() )
                     valid = true;
                 else {
-                    display("Errore, la stringa inserita non è una data, riprova.\n");
+                    displayln("Errore, la stringa inserita non è una data, riprova.");
                     continue;
                 }
             }
@@ -129,63 +136,27 @@ public class ToDoApplication
     }
 
     public static void printTitle(){
-        display( "------------------------\n" );
-        display( "------ToDo Manager------\n" );
-        display( "------------------------\n\n" );
+        displayln( "------------------------" );
+        displayln( "------ToDo Manager------" );
+        displayln( "------------------------\n" );
     }
 
-    public static void mainMenu(){
-        boolean quit = false;
-        do{
-            display("1. Visualizza, 2. Aggiungi, Rimuovi, Modifica, 3. Import/Export, 4. Uscita\n");
-            int input = askForInt(1, 4);
-            switch( input ) {
-                case 1: visualizzaMenu(); break;
-                case 2: editMenu(); break;
-                case 3: importExportMenu(); break;
-                default: quit = true; break;
-            }
-        }while( !quit );
-    }
+    private static ToDoMenuBranch createMenu(){
+        ToDoMenuLeaf byPriority = new ToDoMenuLeaf("1", "Per priorità", ToDoList::viewByPriority );
+        ToDoMenuLeaf byDate = new ToDoMenuLeaf("2", "Per data", ToDoList::viewByDate );
+        ToDoMenuLeaf byState = new ToDoMenuLeaf("3", "Per stato", ToDoList::viewByState );
+        ToDoMenuBranch visualizzaMenu = new ToDoMenuBranch("1", "Visualizza", Arrays.asList( byPriority, byDate, byState ));
 
-    public static void visualizzaMenu(){
-        boolean quit = false;
-        do {
-            display("1. Per priorità, 2. Per data, 3. Per stato, 4. Indietro\n");
-            int input = askForInt(1, 4);
-            switch ( input ){
-                case 1: ToDoList.viewByPriority(); break;
-                case 2: ToDoList.viewByDate(); break;
-                case 3: ToDoList.viewByState(); break;
-                default: quit = true; break;
-            }
-        }while(!quit);
-    }
+        ToDoMenuLeaf addToDo = new ToDoMenuLeaf("1", "Aggiungi", ToDoManager::createNewToDo );
+        ToDoMenuLeaf removeToDo = new ToDoMenuLeaf("2", "Rimuovi", ToDoManager::removeTodo );
+        ToDoMenuLeaf editToDo = new ToDoMenuLeaf("3", "Modifica", ToDoManager::updateToDo );
+        ToDoMenuBranch editMenu = new ToDoMenuBranch("2", "Aggiungi, Rimuovi, Modifica", Arrays.asList(addToDo, removeToDo, editToDo));
 
-    public static void editMenu(){
-        boolean quit = false;
-        do{
-            display("1. Aggiungi, 2. Rimuovi, 3. Modifica, 4. Indietro\n");
-            int input = askForInt(1,4);
-            switch ( input ){
-                case 1: ToDoManager.createNewToDo(); break;
-                case 2: ToDoManager.removeTodo(); break;
-                case 3: ToDoManager.updateToDo(); break;
-                default: quit = true; break;
-            }
-        }while(!quit);
-    }
+        ToDoMenuLeaf exportToDo = new ToDoMenuLeaf("1", "Export su file", ToDoImportExport::exportFile );
+        ToDoMenuLeaf importToDo = new ToDoMenuLeaf("2", "Import da file", ToDoImportExport::importFile );
+        ToDoMenuBranch importExportMenu = new ToDoMenuBranch("3", "Import/Export", Arrays.asList( exportToDo, importToDo ));
 
-    public static void importExportMenu(){
-        boolean quit = false;
-        do{
-            display("1. Export su file, 2. Import da file, 3. Indietro\n");
-            int input = askForInt(1,3);
-            switch ( input ){
-                case 1: ToDoImportExport.exportFile(); break;
-                case 2: ToDoImportExport.importFile(); break;
-                default: quit = true; break;
-            }
-        }while(!quit);
+        ToDoMenuBranch mainMenu = new ToDoMenuBranch("MainMenu", "Menu Principale", Arrays.asList( visualizzaMenu, editMenu, importExportMenu ));
+        return mainMenu;
     }
 }

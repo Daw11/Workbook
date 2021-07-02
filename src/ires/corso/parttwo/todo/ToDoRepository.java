@@ -74,10 +74,10 @@ public class ToDoRepository implements Serializable
            _repository = (ToDoRepository) in.readObject();
         }
         catch(IOException ex) {
-            ToDoApplication.display("IOException is caught.\n");
+            ToDoApplication.displayln("IOException is caught.");
         }
         catch(ClassNotFoundException ex) {
-            ToDoApplication.display("ClassNotFoundException is caught.\n");
+            ToDoApplication.displayln("ClassNotFoundException is caught.");
         }
     }
 
@@ -89,7 +89,7 @@ public class ToDoRepository implements Serializable
             out.writeObject( _repository );
         }
         catch(IOException ex) {
-            ToDoApplication.display("Errore nella scrittura su file.\n");
+            ToDoApplication.displayln("Errore nella scrittura su file.");
         }
     }
 }

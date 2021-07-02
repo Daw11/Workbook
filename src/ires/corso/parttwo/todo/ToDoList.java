@@ -17,7 +17,7 @@ public class ToDoList
 
 
     private static void showList( String msg, Function<ToDo, Comparable> field ){
-        ToDoApplication.display(msg);
+        ToDoApplication.displayln(msg);
         List<ToDo> sortedList = ToDoRepository.getToDoList();
         Comparator<ToDo> comparator = Comparator.comparing( field );
         sortedList.sort( comparator );
@@ -25,15 +25,15 @@ public class ToDoList
     }
 
     public static void viewByPriority() {
-        showList( "Lista ordinata per priorità: \n", ToDo::getPriority );
+        showList( "Lista ordinata per priorità:", ToDo::getPriority );
     }
 
     public static void viewByDate() {
-        showList( "Lista ordinata per data: \n", ToDo::getDataConsegna );
+        showList( "Lista ordinata per data:", ToDo::getDataConsegna );
     }
 
     public static void viewByState() {
-        showList( "Lista ordinata per stato: \n", ToDo::getStato );
+        showList( "Lista ordinata per stato:", ToDo::getStato );
     }
 
     private static void prettyPrint( List<ToDo> list ){

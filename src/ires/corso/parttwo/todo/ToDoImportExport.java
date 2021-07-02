@@ -16,7 +16,7 @@ public class ToDoImportExport
     // Mantiene i formati di import e di export (conversione da/verso stringa)
 
     public static void importFile(){
-        ToDoApplication.display("Su quale file vuoi fare l'import?\n");
+        ToDoApplication.displayln("Su quale file vuoi fare l'import?");
         String filePath = ToDoApplication.askForString();
         Path inputFile = Paths.get( filePath );
 
@@ -27,7 +27,7 @@ public class ToDoImportExport
             }
         }
         catch (NoSuchFileException e){
-            ToDoApplication.display("Errore, il file non esiste.\n");
+            ToDoApplication.displayln("Errore, il file non esiste.");
         }
         catch (IOException e){
             e.printStackTrace();
@@ -35,7 +35,7 @@ public class ToDoImportExport
     }
 
     public static void exportFile(){
-        ToDoApplication.display("Su quale file vuoi fare l'export?\n");
+        ToDoApplication.displayln("Su quale file vuoi fare l'export?");
         String filePath = ToDoApplication.askForString();
         Path outputFile = Paths.get( filePath );
 
@@ -44,7 +44,7 @@ public class ToDoImportExport
             //writer.append(message);
         }
         catch (NoSuchFileException e){
-            ToDoApplication.display("Errore, il file non esiste.\n");
+            ToDoApplication.displayln("Errore, il file non esiste.");
         }
         catch (IOException e){
             e.printStackTrace();
