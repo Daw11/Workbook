@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 public class VehicleRepository implements Serializable {
 
     private static VehicleRepository _repository = null;
-    Map<String, Vehicle> _data = new HashMap<>();
+    private Map<String, Vehicle> _data = new HashMap<>();
 
     private VehicleRepository() {
     }
