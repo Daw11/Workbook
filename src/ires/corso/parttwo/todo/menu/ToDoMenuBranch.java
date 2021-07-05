@@ -26,7 +26,6 @@ public class ToDoMenuBranch extends ToDoMenuItem {
     public ToDoMenuBranch(String ID, String title, List<ToDoMenuItem> options, String exitID, String exitMessage) {
         super(ID, title);
         _options.addAll( options );
-        exitID = String.valueOf( _options.size() + 1 );
         initExit( exitID, exitMessage );
     }
 

@@ -16,7 +16,7 @@ data creazione:02-07-2021 15:07
 titolo:Prova
 descrizione:Desc
 stato:IN_ESECUZIONE
-priorità:MEDIA
+priorità:BASSA
 data consegna:13-04-2014 11:20
 
 data creazione:02-07-2021 17:19
