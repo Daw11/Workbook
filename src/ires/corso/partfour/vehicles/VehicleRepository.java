@@ -58,7 +58,7 @@ public class VehicleRepository implements Serializable {
 
     public static List<Vehicle> getVehicleList( Vehicle.Type type ){
         List<Vehicle> all_vehicles = getVehicleList();
-        return all_vehicles.stream().filter( v -> v.getType() == type ).collect(Collectors.toList());
+        return all_vehicles.stream().filter( v -> type == null || v.getType() == type ).collect(Collectors.toList());
     }
 
     public static void readFromFile(String fileName) {

@@ -18,17 +18,19 @@ public class VehicleTest {
         List<Vehicle> vehicles = Arrays.asList( c, t1, t2, m1 );
         vehicles.forEach( VehicleRepository::add );
 
-        System.out.println("Tutti i veicoli:");
-        VehicleRepository.getVehicleList().forEach( System.out::println );
+        printList(null, "Tutti i veicoli:");
 
-        System.out.println("\nSolo camion:");
-        VehicleRepository.getVehicleList(Vehicle.Type.TRUCK).forEach( System.out::println );
+        printList(Vehicle.Type.TRUCK, "Solo camion:");
 
         VehicleRepository.delete(t1.getTarga());
 
-        System.out.println("\nSolo camion 2:");
-        VehicleRepository.getVehicleList(Vehicle.Type.TRUCK).forEach( System.out::println );
+        printList(Vehicle.Type.TRUCK, "Solo camion 2:");
 
         vr.writeToFile( repositoryPath );
+    }
+
+    private static void printList(Vehicle.Type type, String msg){
+        System.out.println("\n" + msg);
+        VehicleRepository.getVehicleList(type).forEach( System.out::println );
     }
 }
