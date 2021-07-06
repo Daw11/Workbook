@@ -26,6 +26,12 @@ public class VehicleTest {
 
         printList(Vehicle.Type.TRUCK, "Solo camion 2:");
 
+        Truck t3 = new Truck("ABCDE");
+
+        VehicleRepository.swap( t3, t2.getTarga() );
+
+        printList(Vehicle.Type.TRUCK, "Solo camion 3:");
+
         vr.writeToFile( repositoryPath );
     }
 
