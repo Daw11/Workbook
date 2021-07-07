@@ -43,7 +43,14 @@ public class Libro implements Serializable {
 
     public String prettyPrint(){
         return String.format(
-                "ID: %s\ntitolo: %s\nautore: %s\n sinossi: %s\n isbn: %s\n data pubblicazione: %s\ngenere: %s\ngiudizio: %s\navanzamento lettura: %s",
+                "ID: %s\ntitolo: %s\nautore: %s\nsinossi: %s\nisbn: %s\ndata pubblicazione: %s\ngenere: %s\ngiudizio: %s\navanzamento lettura: %s",
+                _ID, _titolo, _autore, _sinossi, _isbn, formattedDataPubblicazione(), _genere.name(), prettyPrintGiudizio(), _avanzamento_lettura
+        );
+    }
+
+    public String exportablePrint(){
+        return String.format(
+                "ID: %s\nTITOLO: %s\nAUTORE: %s\nSINOSSI: %s\nISBN: %s\nDATA_PUBBLICAZIONE: %s\nGENERE: %s\nGIUDIZIO: %s\nAVANZAMENTO_LETTURA: %s",
                 _ID, _titolo, _autore, _sinossi, _isbn, formattedDataPubblicazione(), _genere.name(), prettyPrintGiudizio(), _avanzamento_lettura
         );
     }

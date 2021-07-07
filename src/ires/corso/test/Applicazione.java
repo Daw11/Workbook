@@ -1,6 +1,7 @@
 package ires.corso.test;
 
 import ires.corso.test.menu.MenuBranch;
+import ires.corso.test.menu.MenuItem;
 import ires.corso.test.menu.MenuLeaf;
 
 import java.time.LocalDate;
@@ -10,8 +11,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
-
-import static ires.corso.parttwo.todo.ToDoApplication.displayln;
 
 public class Applicazione {
     public static void main(String[] args) {
@@ -51,7 +50,12 @@ public class Applicazione {
         MenuLeaf avanzamento = new MenuLeaf("c", "Avanzamento lettura", LibroManager::avanzamentoLettura );
         MenuLeaf giudizio = new MenuLeaf("d", "Giudizio personale", LibroManager::giudizioPersonale );
 
-        MenuBranch main_menu = new MenuBranch("MainMenu", "Menu principale", Arrays.asList( visualizza, creaModificaElimina, avanzamento, giudizio ), true);
+        MenuLeaf export = new MenuLeaf("e", "Export su file", BibliotecaExport::exportFile );
+
+       // MenuLeaf uscita = new MenuLeaf("e", "Uscita",  )
+
+        List<MenuItem> main_menu_options = Arrays.asList( visualizza, creaModificaElimina, avanzamento, giudizio, export );
+        MenuBranch main_menu = new MenuBranch("MainMenu", "Menu principale", main_menu_options, false);
         return main_menu;
     }
 
@@ -95,7 +99,7 @@ public class Applicazione {
                 valid = true;
             }
             else {
-                displayln("Errore: non hai inserito un numero, riprova.");
+                Applicazione.println("Errore: non hai inserito un numero, riprova.");
                 valid = false;
             }
         }while( !valid );
@@ -131,7 +135,7 @@ public class Applicazione {
                 if( allowBlank && str.isEmpty() )
                     valid = true;
                 else {
-                    displayln("Errore, la stringa inserita non è una data, riprova.");
+                    Applicazione.println("Errore, la stringa inserita non è una data, riprova.");
                     continue;
                 }
             }

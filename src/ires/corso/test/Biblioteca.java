@@ -59,15 +59,12 @@ public class Biblioteca implements Serializable {
 
     public static void readFromFile(String fileName){
         File f = new File(fileName);
-        if( !f.exists() ) {
-            Applicazione.println("Errore, il file non esiste.");
+        if( !f.exists() )
             return;
-        }
 
         try(
                 FileInputStream fileInputStream = new FileInputStream( f );
-                ObjectInputStream in = new ObjectInputStream(fileInputStream)
-        )
+                ObjectInputStream in = new ObjectInputStream(fileInputStream))
         {
             _repository = (Biblioteca) in.readObject();
         }
