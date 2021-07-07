@@ -13,12 +13,13 @@ public class LibroManager {
         }
         Libro l = Biblioteca.getLibro( ID );
         Applicazione.println( l.prettyPrint() );
-        Applicazione.println("Inserisci il nuovo valore per l'avanzamento della lettura di questo libro: ");
 
         if( l.get_avanzamento_lettura() == 100 ) {
             Applicazione.println("Errore, non puoi modificare l'avanzamento perchè è già a 100.");
             return;
         }
+
+        Applicazione.println("Inserisci il nuovo valore per l'avanzamento della lettura di questo libro: ");
 
         int avanzamento = Applicazione.askForInt();
         if( avanzamento < 0 || avanzamento > 100 ) {
