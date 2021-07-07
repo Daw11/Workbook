@@ -1,7 +1,11 @@
 package ires.corso.test;
 
+import ires.corso.parttwo.todo.ToDo;
+
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Libro implements Serializable {
     public enum Genere { HORROR, FANTASY, GIALLO, STORICO, POESIA }
@@ -16,10 +20,36 @@ public class Libro implements Serializable {
     private String _isbn;
     private LocalDate _data_pubblicazione;
     private Genere _genere;
+    private Giudizio _giudizio;
     private int _avanzamento_lettura;
 
     public Libro(){
         _ID = Biblioteca.nextID();
+    }
+
+    public Libro cloneForUpdate() {
+        Libro l = new Libro();
+        l._ID = _ID;
+        l._titolo = _titolo;
+        l._autore = _autore;
+        l._sinossi = _sinossi;
+        l._isbn = _isbn;
+        l._data_pubblicazione = _data_pubblicazione;
+        l._genere = _genere;
+        l._giudizio = _giudizio;
+        l._avanzamento_lettura = _avanzamento_lettura;
+        return l;
+    }
+
+    public String prettyPrint(){
+        return String.format(
+                "ID: %s\ntitolo: %s\nautore: %s\n sinossi: %s\n isbn: %s\n data pubblicazione: %s\ngenere: %s",
+                _ID, _titolo, _autore, _sinossi, _isbn, formattedDataPubblicazione(), _genere.name()
+        );
+    }
+
+    public String formattedDataPubblicazione(){
+        return  _data_pubblicazione.format( DateTimeFormatter.ofPattern( date_format ) ).toString();
     }
 
     public long getID(){
@@ -74,11 +104,28 @@ public class Libro implements Serializable {
         this._genere = _genere;
     }
 
+    public Giudizio get_giudizio() {
+        return _giudizio;
+    }
+
+    public void set_giudizio(Giudizio _giudizio) {
+        this._giudizio = _giudizio;
+    }
+
     public int get_avanzamento_lettura() {
         return _avanzamento_lettura;
     }
 
     public void set_avanzamento_lettura(int _avanzamento_lettura) {
+        if( this._avanzamento_lettura == 100 ){
+            Applicazione.println("Errore, non puoi modificare l'avanzamento perchè è già a 100.");
+            return;
+        }
+        if( _avanzamento_lettura < 0 || _avanzamento_lettura > 100 ){
+            Applicazione.println("Errore, il valore inserito non è un avanzamento valido.");
+            return;
+        }
+
         this._avanzamento_lettura = _avanzamento_lettura;
     }
 }

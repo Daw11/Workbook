@@ -3,13 +3,12 @@ package ires.corso.test;
 import ires.corso.test.menu.MenuBranch;
 import ires.corso.test.menu.MenuLeaf;
 
-import javax.swing.text.DateFormatter;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
 
 import static ires.corso.parttwo.todo.ToDoApplication.displayln;
@@ -27,6 +26,10 @@ public class Applicazione {
         Biblioteca.writeToFile( save_file );
     }
 
+    public static void print( String msg ){
+        System.out.print( msg );
+    }
+
     public static void println( String msg ){
         System.out.println( msg );
     }
@@ -38,9 +41,31 @@ public class Applicazione {
     }
 
     public static MenuBranch createMenu(){
-        MenuLeaf visualizza = new MenuLeaf("a", "Visualizzazione dei volumi esistenti", () -> Biblioteca.getLibri().sort(Comparator.comparing( Libro::get_titolo )) );
-        MenuBranch main_menu = new MenuBranch("MainMenu", "Menu principale", Arrays.asList( visualizza ), false);
+        MenuLeaf visualizza = new MenuLeaf("a", "Visualizzazione dei volumi esistenti", Applicazione::mostraLibri );
+
+        MenuLeaf crea = new MenuLeaf("a", "Aggiunta di un volume", BibliotecaManager::creaLibro );
+        MenuLeaf modifica = new MenuLeaf("b", "Modifica di un volume", BibliotecaManager::aggiornaLibro );
+        MenuLeaf elimina = new MenuLeaf("c", "Eliminazione di un volume", BibliotecaManager::rimuoviLibro );
+        MenuBranch creaModificaElimina = new MenuBranch("b", "Crea / Modifica / Elimina", Arrays.asList( crea, modifica, elimina ), true);
+
+        MenuBranch main_menu = new MenuBranch("MainMenu", "Menu principale", Arrays.asList( visualizza, creaModificaElimina ), true);
         return main_menu;
+    }
+
+    private static void mostraLibri(){
+        List<Libro> libri = Biblioteca.getLibri();
+        if( libri.size() == 0 )
+            println("Al momento non ci sono libri nella biblioteca.");
+        else
+            libri.stream().sorted(Comparator.comparing( Libro::get_titolo )).map( Libro::prettyPrint ).forEach( Applicazione::println );
+    }
+
+    private static void exit(){
+        println("Sei sicuro di voler uscire? (s/n)");
+        String input = askForInput();
+        if( input.toLowerCase().equals( "s" ) ) {
+            // TODO exit
+        }
     }
 
     private static String askForInput(){
@@ -50,6 +75,22 @@ public class Applicazione {
 
     public static String askForString(){
         return askForInput().trim();
+    }
+
+    public static long askForLong(){
+        long result = -1;
+        boolean valid = false;
+        do {
+            String input = askForString();
+            if( input.matches( "\\d+") ) {
+                valid = true;
+                result = Long.parseLong( input );
+            }
+            else
+                println("Errore: non hai inserito un numero, riprova");
+        }while(!valid);
+
+        return result;
     }
 
     public static LocalDate askForDate( boolean allowBlank ){

@@ -40,7 +40,7 @@ public class MenuBranch extends MenuItem {
     }
 
     private void printContent() {
-        Applicazione.println( getTitle() );
+        Applicazione.println( "\n" + getTitle() );
         _options.stream().map( MenuItem::toString ).forEach( Applicazione::println );
     }
 }
