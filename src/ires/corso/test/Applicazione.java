@@ -13,14 +13,16 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Applicazione {
+    private static MenuBranch main_menu;
+
     public static void main(String[] args) {
         final String save_file = "biblioteca.txt";
 
         Biblioteca.loadFromFile( save_file );
 
         printTitle();
-        MenuBranch menu = createMenu();
-        menu.run();
+        loadMainMenu();
+        main_menu.run();
 
         Biblioteca.writeToFile( save_file );
     }
@@ -39,24 +41,24 @@ public class Applicazione {
         println("-------------------------------");
     }
 
-    public static MenuBranch createMenu(){
+    public static void loadMainMenu(){
         MenuLeaf visualizza = new MenuLeaf("a", "Visualizzazione dei volumi esistenti", Applicazione::mostraLibri );
 
+        MenuBranch creaModificaElimina;
         MenuLeaf crea = new MenuLeaf("a", "Aggiunta di un volume", BibliotecaManager::creaLibro );
         MenuLeaf modifica = new MenuLeaf("b", "Modifica di un volume", BibliotecaManager::aggiornaLibro );
         MenuLeaf elimina = new MenuLeaf("c", "Eliminazione di un volume", BibliotecaManager::rimuoviLibro );
-        MenuBranch creaModificaElimina = new MenuBranch("b", "Crea / Modifica / Elimina", Arrays.asList( crea, modifica, elimina ), true);
+        creaModificaElimina = new MenuBranch("b", "Crea / Modifica / Elimina", Arrays.asList( crea, modifica, elimina ), "d", "Indietro");
 
         MenuLeaf avanzamento = new MenuLeaf("c", "Avanzamento lettura", LibroManager::avanzamentoLettura );
         MenuLeaf giudizio = new MenuLeaf("d", "Giudizio personale", LibroManager::giudizioPersonale );
 
         MenuLeaf export = new MenuLeaf("e", "Export su file", BibliotecaExport::exportFile );
 
-       // MenuLeaf uscita = new MenuLeaf("e", "Uscita",  )
+       MenuLeaf uscita = new MenuLeaf("f", "Uscita", Applicazione::closeProgram );
 
-        List<MenuItem> main_menu_options = Arrays.asList( visualizza, creaModificaElimina, avanzamento, giudizio, export );
-        MenuBranch main_menu = new MenuBranch("MainMenu", "Menu principale", main_menu_options, false);
-        return main_menu;
+        List<MenuItem> main_menu_options = Arrays.asList( visualizza, creaModificaElimina, avanzamento, giudizio, export, uscita );
+        main_menu = new MenuBranch("MainMenu", "Menu principale", main_menu_options);
     }
 
     private static void mostraLibri(){
@@ -67,12 +69,11 @@ public class Applicazione {
             libri.stream().sorted(Comparator.comparing( Libro::get_titolo )).map( Libro::prettyPrint ).forEach( Applicazione::println );
     }
 
-    private static void exit(){
+    private static void closeProgram(){
         println("Sei sicuro di voler uscire? (s/n)");
         String input = askForInput();
-        if( input.toLowerCase().equals( "s" ) ) {
-            // TODO exit
-        }
+        if( input.toLowerCase().equals( "s" ) )
+            main_menu.set_exit( true );
     }
 
     private static String askForInput(){

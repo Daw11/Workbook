@@ -11,17 +11,15 @@ public class MenuBranch extends MenuItem {
     private boolean _exit;
     private final String _defaultExitMessage = "Indietro";
 
-    public MenuBranch( String ID, String title, List<MenuItem> options, boolean autoExit ) {
+    public MenuBranch( String ID, String title, List<MenuItem> options ) {
         super(ID, title);
         _options.addAll( options );
-        if( autoExit ) {
-            String exitID = String.valueOf(_options.size() + 1);
-            createExit( exitID, _defaultExitMessage );
-        }
     }
 
-    private void createExit( String exitID, String exitMessage){
-        MenuLeaf exitLeaf = new MenuLeaf( exitID, exitMessage, () -> _exit = true );
+    public MenuBranch(String ID, String title, List<MenuItem> options, String chiudiID, String chiudiTitolo ){
+        super(ID, title);
+        _options.addAll( options );
+        MenuLeaf exitLeaf = new MenuLeaf( chiudiID, chiudiTitolo, () -> _exit = true );
         _options.add( exitLeaf );
     }
 
@@ -42,5 +40,9 @@ public class MenuBranch extends MenuItem {
     private void printContent() {
         Applicazione.println( "\n" + getTitle() );
         _options.stream().map( MenuItem::toString ).forEach( Applicazione::println );
+    }
+
+    public void set_exit(boolean _exit) {
+        this._exit = _exit;
     }
 }

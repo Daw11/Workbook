@@ -1,10 +1,7 @@
 package ires.corso.test;
 
-import ires.corso.parttwo.todo.ToDo;
-
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Libro implements Serializable {

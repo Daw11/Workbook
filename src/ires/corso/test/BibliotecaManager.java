@@ -1,9 +1,5 @@
 package ires.corso.test;
 
-import ires.corso.parttwo.todo.ToDo;
-import ires.corso.parttwo.todo.ToDoApplication;
-import ires.corso.parttwo.todo.ToDoRepository;
-
 import java.time.LocalDate;
 import java.util.Arrays;
 
