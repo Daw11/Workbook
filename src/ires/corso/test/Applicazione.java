@@ -48,7 +48,10 @@ public class Applicazione {
         MenuLeaf elimina = new MenuLeaf("c", "Eliminazione di un volume", BibliotecaManager::rimuoviLibro );
         MenuBranch creaModificaElimina = new MenuBranch("b", "Crea / Modifica / Elimina", Arrays.asList( crea, modifica, elimina ), true);
 
-        MenuBranch main_menu = new MenuBranch("MainMenu", "Menu principale", Arrays.asList( visualizza, creaModificaElimina ), true);
+        MenuLeaf avanzamento = new MenuLeaf("c", "Avanzamento lettura", LibroManager::avanzamentoLettura );
+        MenuLeaf giudizio = new MenuLeaf("d", "Giudizio personale", LibroManager::giudizioPersonale );
+
+        MenuBranch main_menu = new MenuBranch("MainMenu", "Menu principale", Arrays.asList( visualizza, creaModificaElimina, avanzamento, giudizio ), true);
         return main_menu;
     }
 
@@ -77,12 +80,35 @@ public class Applicazione {
         return askForInput().trim();
     }
 
+    public static boolean isNumber( String str ){
+        return str.matches( "\\d+" );
+    }
+
+    public static int askForInt(){
+        int result = -1;
+        boolean valid = false;
+
+        do {
+            String input = askForInput();
+            if( isNumber( input ) ){
+                result = Integer.parseInt( input );
+                valid = true;
+            }
+            else {
+                displayln("Errore: non hai inserito un numero, riprova.");
+                valid = false;
+            }
+        }while( !valid );
+
+        return result;
+    }
+
     public static long askForLong(){
         long result = -1;
         boolean valid = false;
         do {
             String input = askForString();
-            if( input.matches( "\\d+") ) {
+            if( isNumber( input ) ) {
                 valid = true;
                 result = Long.parseLong( input );
             }

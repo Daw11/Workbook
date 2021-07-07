@@ -43,8 +43,8 @@ public class Libro implements Serializable {
 
     public String prettyPrint(){
         return String.format(
-                "ID: %s\ntitolo: %s\nautore: %s\n sinossi: %s\n isbn: %s\n data pubblicazione: %s\ngenere: %s",
-                _ID, _titolo, _autore, _sinossi, _isbn, formattedDataPubblicazione(), _genere.name()
+                "ID: %s\ntitolo: %s\nautore: %s\n sinossi: %s\n isbn: %s\n data pubblicazione: %s\ngenere: %s\ngiudizio: %s\navanzamento lettura: %s",
+                _ID, _titolo, _autore, _sinossi, _isbn, formattedDataPubblicazione(), _genere.name(), prettyPrintGiudizio(), _avanzamento_lettura
         );
     }
 
@@ -108,6 +108,12 @@ public class Libro implements Serializable {
         return _giudizio;
     }
 
+    private String prettyPrintGiudizio(){
+        if( _giudizio == null )
+            return "";
+        return _giudizio.toString();
+    }
+
     public void set_giudizio(Giudizio _giudizio) {
         this._giudizio = _giudizio;
     }
@@ -117,15 +123,6 @@ public class Libro implements Serializable {
     }
 
     public void set_avanzamento_lettura(int _avanzamento_lettura) {
-        if( this._avanzamento_lettura == 100 ){
-            Applicazione.println("Errore, non puoi modificare l'avanzamento perchè è già a 100.");
-            return;
-        }
-        if( _avanzamento_lettura < 0 || _avanzamento_lettura > 100 ){
-            Applicazione.println("Errore, il valore inserito non è un avanzamento valido.");
-            return;
-        }
-
         this._avanzamento_lettura = _avanzamento_lettura;
     }
 }
