@@ -40,7 +40,7 @@ public class Libro implements Serializable {
 
     public String prettyPrint(){
         return String.format(
-                "ID: %s\ntitolo: %s\nautore: %s\nsinossi: %s\nisbn: %s\ndata pubblicazione: %s\ngenere: %s\ngiudizio: %s\navanzamento lettura: %s",
+                "ID: %s\ntitolo: %s\nautore: %s\nsinossi: %s\nisbn: %s\ndata pubblicazione: %s\ngenere: %s\ngiudizio: %s\navanzamento lettura: %s\n",
                 _ID, _titolo, _autore, _sinossi, _isbn, formattedDataPubblicazione(), _genere.name(), prettyPrintGiudizio(), _avanzamento_lettura
         );
     }

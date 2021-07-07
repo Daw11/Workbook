@@ -36,9 +36,9 @@ public class Applicazione {
     }
 
     public static void printTitle(){
-        println("-------------------------------");
-        println("-Biblioteca di Busterna Davide-");
-        println("-------------------------------");
+        println("---------------------------------");
+        println("- Biblioteca di Busterna Davide -");
+        println("---------------------------------");
     }
 
     public static void loadMainMenu(){
@@ -48,7 +48,8 @@ public class Applicazione {
         MenuLeaf crea = new MenuLeaf("a", "Aggiunta di un volume", BibliotecaManager::creaLibro );
         MenuLeaf modifica = new MenuLeaf("b", "Modifica di un volume", BibliotecaManager::aggiornaLibro );
         MenuLeaf elimina = new MenuLeaf("c", "Eliminazione di un volume", BibliotecaManager::rimuoviLibro );
-        creaModificaElimina = new MenuBranch("b", "Crea / Modifica / Elimina", Arrays.asList( crea, modifica, elimina ), "d", "Indietro");
+        creaModificaElimina = new MenuBranch("b", "Crea / Modifica / Elimina", Arrays.asList( crea, modifica, elimina ));
+        creaModificaElimina.addExitOption( "d", "Indietro" );
 
         MenuLeaf avanzamento = new MenuLeaf("c", "Avanzamento lettura", LibroManager::avanzamentoLettura );
         MenuLeaf giudizio = new MenuLeaf("d", "Giudizio personale", LibroManager::giudizioPersonale );
@@ -66,7 +67,7 @@ public class Applicazione {
         if( libri.size() == 0 )
             println("Al momento non ci sono libri nella biblioteca.");
         else
-            libri.stream().sorted(Comparator.comparing( Libro::get_titolo )).map( Libro::prettyPrint ).forEach( Applicazione::println );
+            libri.stream().sorted(Comparator.comparing(Libro::get_titolo)).map(Libro::prettyPrint).forEach(Applicazione::println);
     }
 
     private static void closeProgram(){

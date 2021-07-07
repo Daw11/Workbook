@@ -16,10 +16,8 @@ public class MenuBranch extends MenuItem {
         _options.addAll( options );
     }
 
-    public MenuBranch(String ID, String title, List<MenuItem> options, String chiudiID, String chiudiTitolo ){
-        super(ID, title);
-        _options.addAll( options );
-        MenuLeaf exitLeaf = new MenuLeaf( chiudiID, chiudiTitolo, () -> _exit = true );
+    public void addExitOption( String ID, String title ){
+        MenuLeaf exitLeaf = new MenuLeaf( ID, title, () -> _exit = true );
         _options.add( exitLeaf );
     }
 

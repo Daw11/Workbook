@@ -6,6 +6,7 @@ import java.util.Arrays;
 public class BibliotecaManager {
     public static void creaLibro(){
         Libro l = new Libro();
+        Applicazione.println("Inserisci i dati del nuovo libro.");
         getDatiLibro( l, false );
         Applicazione.println( l.prettyPrint() );
         Applicazione.println("Vuoi aggiungere questo libro alla biblioteca? (s/n)");
@@ -26,6 +27,7 @@ public class BibliotecaManager {
         Libro original = Biblioteca.getLibro( ID );
         Applicazione.println( original.prettyPrint() );
         Libro copy = original.cloneForUpdate();
+        Applicazione.println("Inserisci i nuovi dati per il libro, lascia una linea vuota se vuoi mantenere quelli precedenti.");
         getDatiLibro( copy, true );
         Applicazione.println( copy.prettyPrint() );
         Applicazione.println("Vuoi applicare queste modifiche? (s/n)");
@@ -59,23 +61,28 @@ public class BibliotecaManager {
 
         Applicazione.println("Titolo: ");
         input = Applicazione.askForString();
-        l.set_titolo( input );
+        if( !(isEdit && input.isEmpty()) )
+            l.set_titolo( input );
 
         Applicazione.println("Autore: ");
         input = Applicazione.askForString();
-        l.set_autore( input );
+        if( !(isEdit && input.isEmpty()) )
+            l.set_autore( input );
 
         Applicazione.println("Sinossi: ");
         input = Applicazione.askForString();
-        l.set_sinossi( input );
+        if( !(isEdit && input.isEmpty()) )
+            l.set_sinossi( input );
 
         Applicazione.println("Codice ISBN: ");
         input = Applicazione.askForString();
-        l.set_isbn( input );
+        if( !(isEdit && input.isEmpty()) )
+            l.set_isbn( input );
 
         Applicazione.println("Data pubblicazione (" + Libro.date_format + ")");
         LocalDate date = Applicazione.askForDate( isEdit );
-        l.set_data_pubblicazione( date );
+        if( date != null )
+            l.set_data_pubblicazione( date );
 
         boolean valid;
         Libro.Genere genere = null;
@@ -86,7 +93,8 @@ public class BibliotecaManager {
             Applicazione.println(")");
             input = Applicazione.askForString();
             try{
-                genere = Libro.Genere.valueOf( input );
+                if( !(isEdit && input.isEmpty()) )
+                    genere = Libro.Genere.valueOf( input );
             } catch ( IllegalArgumentException e ){
                 valid = false;
                 Applicazione.println("Errore, il genere non è valido.");
