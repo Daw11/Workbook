@@ -61,22 +61,22 @@ public class BibliotecaManager {
 
         Applicazione.println("Titolo: ");
         input = Applicazione.askForString();
-        if( !(isEdit && input.isEmpty()) )
+        if( validIfEmpty( input, isEdit ) )
             l.set_titolo( input );
 
         Applicazione.println("Autore: ");
         input = Applicazione.askForString();
-        if( !(isEdit && input.isEmpty()) )
+        if( validIfEmpty( input, isEdit ) )
             l.set_autore( input );
 
         Applicazione.println("Sinossi: ");
         input = Applicazione.askForString();
-        if( !(isEdit && input.isEmpty()) )
+        if( validIfEmpty( input, isEdit ) )
             l.set_sinossi( input );
 
         Applicazione.println("Codice ISBN: ");
         input = Applicazione.askForString();
-        if( !(isEdit && input.isEmpty()) )
+        if( validIfEmpty( input, isEdit ) )
             l.set_isbn( input );
 
         Applicazione.println("Data pubblicazione (" + Libro.date_format + ")");
@@ -93,13 +93,18 @@ public class BibliotecaManager {
             Applicazione.println(")");
             input = Applicazione.askForString();
             try{
-                if( !(isEdit && input.isEmpty()) )
+                if( validIfEmpty( input, isEdit ) )
                     genere = Libro.Genere.valueOf( input );
             } catch ( IllegalArgumentException e ){
                 valid = false;
                 Applicazione.println("Errore, il genere non è valido.");
             }
         } while( !valid );
-        l.set_genere( genere );
+        if( validIfEmpty( input, isEdit ) )
+            l.set_genere( genere );
+    }
+
+    private static boolean validIfEmpty( String input, boolean isEdit ){
+        return !( isEdit && input.isEmpty()) ;
     }
 }

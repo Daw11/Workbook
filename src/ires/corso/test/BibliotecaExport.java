@@ -17,7 +17,7 @@ public class BibliotecaExport {
 
         try(BufferedWriter writer = Files.newBufferedWriter(outputFile, Charset.defaultCharset())){
             for( Libro l : libri )
-                writer.write( l.exportablePrint() + "\n" );
+                writer.write( l.exportablePrint() + "\n\n" );
             writer.flush();
         }
         catch (IOException e){
