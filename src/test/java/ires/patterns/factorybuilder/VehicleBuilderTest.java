@@ -7,14 +7,39 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
 class VehicleBuilderTest {
+    @Test
+    void given2WheelsWhenBuildThenShouldReturnNewMotorbike() {
+        int wheels = 1;
+
+        Vehicle result = VehicleBuilder.build( wheels );
+
+        assertThat( result instanceof Motorbike );
+    }
 
     @Test
     void given4WheelsWhenBuildThenShouldReturnNewCar() {
         int wheels = 4;
-        Vehicle expectedResult = new Car();
 
         Vehicle result = VehicleBuilder.build( wheels );
 
-        assertThat( result ).isEqualTo( expectedResult );
+        assertThat( result instanceof Car );
+    }
+
+    @Test
+    void given6WheelsWhenBuildThenShouldReturnNewTruck() {
+        int wheels = 6;
+
+        Vehicle result = VehicleBuilder.build( wheels );
+
+        assertThat( result instanceof Truck );
+    }
+
+    @Test
+    void givenWrongWheelsWhenBuildThenShouldReturnNull() {
+        int wheels = 10000;
+
+        Vehicle result = VehicleBuilder.build( wheels );
+
+        assertThat( result ).isEqualTo( null );
     }
 }
